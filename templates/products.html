@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}商品一覧 | EC SITE{% endblock %}
+
+{% block description %}
+ペットとの暮らしを支える商品を取り揃えた商品一覧ページです。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            PRODUCTS
+        </p>
+
+        <h1 class="page-header__title">
+            商品一覧
+        </h1>
+
+        <p class="page-header__text">
+            ペットとの暮らしを支える商品をお届けします。
+        </p>
+
+    </div>
+</section>
+
+
+<section class="products-section">
+    <div class="products-section__inner">
+
+
+        <!-- 商品検索 -->
+        <div class="product-search">
+
+            <form
+                action="/products"
+                method="get"
+                class="product-search__form">
+
+                {% if selected_category %}
+                    <input
+                        type="hidden"
+                        name="category"
+                        value="{{ selected_category }}">
+                {% endif %}
+
+                <label
+                    for="product-search-input"
+                    class="product-search__label">
+                    商品を検索
+                </label>
+
+                <div class="product-search__row">
+
+                    <input
+                        id="product-search-input"
+                        type="search"
+                        name="q"
+                        value="{{ search_query }}"
+                        class="product-search__input"
+                        placeholder="商品名・カテゴリー・キーワードで検索">
+
+                    <button
+                        type="submit"
+                        class="product-search__button">
+                        検索
+                    </button>
+
+                </div>
+
+            </form>
+
+            {% if search_query %}
+                <p class="product-search__result">
+                    「{{ search_query }}」の検索結果
+                </p>
+            {% endif %}
+
+        </div>
+
+
+        <!-- カテゴリー絞り込み -->
+        <div class="product-filter">
+
+            <div class="product-filter__heading">
+
+                <p class="product-filter__eyebrow">
+                    CATEGORY
+                </p>
+
+                {% if selected_category %}
+                    <p class="product-filter__current">
+                        現在のカテゴリー：
+
+                        <strong>
+                            {% if selected_category == "oral" %}
+                                口腔ケア
+                            {% elif selected_category == "skin" %}
+                                スキンケア
+                            {% elif selected_category == "shampoo" %}
+                                シャンプー
+                            {% elif selected_category == "other" %}
+                                その他
+                            {% endif %}
+                        </strong>
+                    </p>
+                {% else %}
+                    <p class="product-filter__current">
+                        すべての商品を表示しています
+                    </p>
+                {% endif %}
+
+            </div>
+
+
+            <div class="product-filter__actions">
+
+                <a
+                    href="/products"
+                    class="product-filter__button {% if not selected_category %}is-active{% endif %}">
+                    すべての商品
+                </a>
+
+                <a
+                    href="/products?category=oral"
+                    class="product-filter__button {% if selected_category == 'oral' %}is-active{% endif %}">
+                    口腔ケア
+                </a>
+
+                <a
+                    href="/products?category=skin"
+                    class="product-filter__button {% if selected_category == 'skin' %}is-active{% endif %}">
+                    スキンケア
+                </a>
+
+                <a
+                    href="/products?category=shampoo"
+                    class="product-filter__button {% if selected_category == 'shampoo' %}is-active{% endif %}">
+                    シャンプー
+                </a>
+
+                <a
+                    href="/products?category=other"
+                    class="product-filter__button {% if selected_category == 'other' %}is-active{% endif %}">
+                    その他
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="product-list-toolbar">
+
+            <div class="product-count">
+                {{ products|length }}件の商品
+            </div>
+
+            <div class="product-sort">
+
+                <label for="product-sort-select">
+                    並び順
+                </label>
+
+<form
+    action="/products"
+    method="get"
+    class="product-sort__form">
+
+    {% if selected_category %}
+        <input
+            type="hidden"
+            name="category"
+            value="{{ selected_category }}">
+    {% endif %}
+
+    {% if search_query %}
+        <input
+            type="hidden"
+            name="q"
+            value="{{ search_query }}">
+    {% endif %}
+
+    <label for="product-sort-select">
+        並び順
+    </label>
+
+    <select
+        id="product-sort-select"
+        name="sort"
+        class="product-sort__select"
+        onchange="this.form.submit()">
+
+        <option
+            value="default"
+            {% if sort_order == "default" %}selected{% endif %}>
+            おすすめ順
+        </option>
+
+        <option
+            value="name"
+            {% if sort_order == "name" %}selected{% endif %}>
+            商品名順
+        </option>
+
+    </select>
+
+</form>
+
+            </div>
+
+        </div>
+
+
+        <!-- 商品一覧 -->
+        <div class="product-grid">
+            {% if products %}
+
+                {% for product_id, product in products.items() %}
+
+                <a
+                    href="/products/{{ product_id }}"
+                    class="product-card-link">
+
+                    <article class="product-card">
+
+                        <div class="product-card__image">
+
+                            {% if product.image %}
+
+                                <img
+                                    src="{{ url_for('static', filename=product.image) }}"
+                                    alt="{{ product.name }}">
+
+                            {% else %}
+
+                                <span>IMAGE</span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="product-card__body">
+
+                            <p class="product-card__category">
+                                {{ product.category }}
+                            </p>
+
+                            <h2 class="product-card__name">
+                                {{ product.name }}
+                            </h2>
+
+                            <p class="product-card__description">
+                                {{ product.description }}
+                            </p>
+
+                            <p class="product-card__price">
+                                {{ product.price }}
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                </a>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="products-empty">
+
+                    <h2 class="products-empty__title">
+                        商品がありません
+                    </h2>
+
+                    <p class="products-empty__text">
+                        条件に一致する商品は現在登録されていません。
+                    </p>
+
+                    <a
+                        href="/products"
+                        class="text-link">
+                        すべての商品を見る
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

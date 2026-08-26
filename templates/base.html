@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}EC SITE{% endblock %}</title>
+<meta name="description" content="{% block description %}ペットとの暮らしをより快適にする商品をお届けします。{% endblock %}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="site-header__inner">
+
+            <a href="/" class="site-logo">
+                EC SITE
+            </a>
+
+            <nav class="site-nav">
+                <a href="/">ホーム</a>
+                <a href="/products">商品一覧</a>
+                <a href="/about">ブランドについて</a>
+                <a href="/faq">よくある質問</a>
+                <a href="/contact">お問い合わせ</a>
+            </nav>
+
+            <div class="site-header__actions">
+                <a href="/cart">カート</a>
+                <a href="/login">ログイン</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <p>&copy; EC SITE</p>
+        </div>
+    </footer>
+
+</body>
+</html>

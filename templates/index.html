@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}ホーム | EC SITE{% endblock %}
+{% block description %}大切な家族であるペットとの毎日を、より快適で心地よくする商品をお届けします。{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero__inner">
+        <p class="hero__eyebrow">PET CARE &amp; LIFESTYLE</p>
+
+        <h1 class="hero__title">
+            大切な家族との毎日に、<br>
+            心地よいケアを。
+        </h1>
+
+        <p class="hero__text">
+            ペットとの暮らしを、もっと豊かに。
+        </p>
+
+        <a href="/products" class="hero__button">
+            商品を見る
+        </a>
+    </div>
+</section>
+
+<section class="home-section">
+    <div class="home-section__inner">
+
+        <div class="section-heading">
+            <p class="section-heading__eyebrow">PICK UP</p>
+            <h2 class="section-heading__title">おすすめの商品</h2>
+        </div>
+
+<div class="product-grid home-product-grid">
+
+    {% for product_id, product in products.items() %}
+
+        <a
+            href="/products/{{ product_id }}"
+            class="product-card-link">
+
+            <article class="product-card">
+
+                <div class="product-card__image">
+
+                    {% if product.image %}
+
+                        <img
+                            src="{{ url_for('static', filename=product.image) }}"
+                            alt="{{ product.name }}">
+
+                    {% else %}
+
+                        <span>IMAGE</span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="product-card__body">
+
+                    <p class="product-card__category">
+                        {{ product.category }}
+                    </p>
+
+                    <h2 class="product-card__name">
+                        {{ product.name }}
+                    </h2>
+
+                    <p class="product-card__description">
+                        {{ product.description }}
+                    </p>
+
+                    <p class="product-card__price">
+                        {{ product.price }}
+                    </p>
+
+                </div>
+
+            </article>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+    </div>
+</section>
+
+<section class="home-section home-section--category">
+    <div class="home-section__inner">
+
+        <div class="section-heading">
+            <p class="section-heading__eyebrow">CATEGORY</p>
+            <h2 class="section-heading__title">カテゴリーから探す</h2>
+        </div>
+
+        <div class="category-grid">
+
+            <a href="/products?category=oral" class="category-card">
+                <span class="category-card__name">口腔ケア</span>
+            </a>
+
+            <a href="/products?category=skin" class="category-card">
+                <span class="category-card__name">スキンケア</span>
+            </a>
+
+            <a href="/products?category=shampoo" class="category-card">
+                <span class="category-card__name">シャンプー</span>
+            </a>
+
+            <a href="/products?category=other" class="category-card">
+                <span class="category-card__name">その他</span>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="home-section">
+    <div class="home-section__inner">
+
+        <div class="section-heading">
+            <p class="section-heading__eyebrow">ABOUT</p>
+            <h2 class="section-heading__title">私たちについて</h2>
+        </div>
+
+        <div class="about-preview">
+            <p>
+                ペットとの毎日をより心地よくするために、
+                これからさまざまな商品をお届けしていきます。
+            </p>
+
+            <a href="/about" class="text-link">
+                ブランドについて見る
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

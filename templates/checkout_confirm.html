@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}注文内容確認 | EC SITE{% endblock %}
+
+{% block description %}
+ご注文内容とお客様情報をご確認ください。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            CONFIRM
+        </p>
+
+        <h1 class="page-header__title">
+            注文内容確認
+        </h1>
+
+        <p class="page-header__text">
+            ご注文内容とお客様情報をご確認ください。
+        </p>
+
+    </div>
+</section>
+
+
+<section class="checkout-confirm">
+    <div class="checkout-confirm__inner">
+
+
+        <!-- お客様情報 -->
+
+        <div class="checkout-confirm__section">
+
+            <p class="checkout-confirm__eyebrow">
+                CUSTOMER INFORMATION
+            </p>
+
+            <h2 class="checkout-confirm__title">
+                お客様情報
+            </h2>
+
+
+            <div class="checkout-confirm__customer">
+
+                <div class="checkout-confirm__row">
+                    <span>お名前</span>
+                    <strong>{{ customer.name }}</strong>
+                </div>
+
+                <div class="checkout-confirm__row">
+                    <span>メールアドレス</span>
+                    <strong>{{ customer.email }}</strong>
+                </div>
+
+                <div class="checkout-confirm__row">
+                    <span>郵便番号</span>
+                    <strong>{{ customer.postal_code }}</strong>
+                </div>
+
+                <div class="checkout-confirm__row">
+                    <span>住所</span>
+                    <strong>{{ customer.address }}</strong>
+                </div>
+
+                <div class="checkout-confirm__row">
+                    <span>電話番号</span>
+                    <strong>{{ customer.phone }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 注文商品 -->
+
+        <div class="checkout-confirm__section">
+
+            <p class="checkout-confirm__eyebrow">
+                ORDER ITEMS
+            </p>
+
+            <h2 class="checkout-confirm__title">
+                ご注文商品
+            </h2>
+
+
+            <div class="checkout-confirm__items">
+
+                {% for item in cart_items %}
+
+                <article class="checkout-confirm__item">
+
+                    <div class="checkout-confirm__image">
+
+                        {% if item.product.image %}
+
+                            <img
+                                src="{{ url_for('static', filename=item.product.image) }}"
+                                alt="{{ item.product.name }}">
+
+                        {% else %}
+
+                            <span>IMAGE</span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="checkout-confirm__item-info">
+
+                        <p class="checkout-confirm__category">
+                            {{ item.product.category }}
+                        </p>
+
+                        <h3 class="checkout-confirm__item-name">
+                            {{ item.product.name }}
+                        </h3>
+
+                        <p class="checkout-confirm__item-description">
+                            {{ item.product.description }}
+                        </p>
+
+                        <p class="checkout-confirm__item-quantity">
+                            数量：{{ item.quantity }}点
+                        </p>
+
+                        <p class="checkout-confirm__item-price">
+                            {{ item.product.price }}
+                        </p>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="checkout-confirm__summary">
+
+                <span>
+                    合計数量
+                </span>
+
+                <strong>
+                    {{ total_quantity }}点
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- 操作 -->
+
+        <div class="checkout-confirm__actions">
+
+            <a
+                href="/checkout"
+                class="checkout-confirm__back">
+                お客様情報に戻る
+            </a>
+
+            <form
+                action="{{ url_for('order_complete') }}"
+                method="post">
+
+                <button
+                type="submit"
+                class="checkout-confirm__submit">
+                注文を確定する
+                </button>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</section>
+
+{% endblock %}

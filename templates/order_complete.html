@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}ご注文完了 | EC SITE{% endblock %}
+
+{% block description %}
+ご注文ありがとうございました。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            ORDER COMPLETE
+        </p>
+
+        <h1 class="page-header__title">
+            ご注文ありがとうございました
+        </h1>
+
+        <p class="page-header__text">
+            ご注文を承りました。
+        </p>
+
+    </div>
+</section>
+
+
+<section class="order-complete">
+    <div class="order-complete__inner">
+
+        <div class="order-complete__message">
+
+            <p class="order-complete__number-label">
+                ORDER NUMBER
+            </p>
+
+            <p class="order-complete__number">
+                {{ order_number }}
+            </p>
+
+            <p class="order-complete__text">
+                ご注文ありがとうございます。<br>
+                ご注文内容を確認のうえ、対応いたします。
+            </p>
+
+        </div>
+
+
+        <div class="order-complete__section">
+
+            <p class="order-complete__eyebrow">
+                CUSTOMER INFORMATION
+            </p>
+
+            <h2 class="order-complete__title">
+                お客様情報
+            </h2>
+
+            <div class="order-complete__customer">
+
+                <div class="order-complete__row">
+                    <span>お名前</span>
+                    <strong>{{ customer.name }}</strong>
+                </div>
+
+                <div class="order-complete__row">
+                    <span>メールアドレス</span>
+                    <strong>{{ customer.email }}</strong>
+                </div>
+
+                <div class="order-complete__row">
+                    <span>郵便番号</span>
+                    <strong>{{ customer.postal_code }}</strong>
+                </div>
+
+                <div class="order-complete__row">
+                    <span>住所</span>
+                    <strong>{{ customer.address }}</strong>
+                </div>
+
+                <div class="order-complete__row">
+                    <span>電話番号</span>
+                    <strong>{{ customer.phone }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="order-complete__section">
+
+            <p class="order-complete__eyebrow">
+                ORDER ITEMS
+            </p>
+
+            <h2 class="order-complete__title">
+                ご注文商品
+            </h2>
+
+            <div class="order-complete__items">
+
+                {% for item in cart_items %}
+
+                <article class="order-complete__item">
+
+                    <div class="order-complete__image">
+
+                        {% if item.product.image %}
+
+                            <img
+                                src="{{ url_for('static', filename=item.product.image) }}"
+                                alt="{{ item.product.name }}">
+
+                        {% else %}
+
+                            <span>IMAGE</span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="order-complete__item-info">
+
+                        <p class="order-complete__category">
+                            {{ item.product.category }}
+                        </p>
+
+                        <h3 class="order-complete__item-name">
+                            {{ item.product.name }}
+                        </h3>
+
+                        <p class="order-complete__item-quantity">
+                            数量：{{ item.quantity }}点
+                        </p>
+
+                        <p class="order-complete__item-price">
+                            {{ item.product.price }}
+                        </p>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="order-complete__summary">
+
+                <span>
+                    合計数量
+                </span>
+
+                <strong>
+                    {{ total_quantity }}点
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="order-complete__actions">
+
+            <a
+                href="/products"
+                class="order-complete__button">
+                商品一覧へ戻る
+            </a>
+
+            <a
+                href="/"
+                class="order-complete__button">
+                トップページへ戻る
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

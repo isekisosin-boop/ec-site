@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}ログイン | EC SITE{% endblock %}
+
+{% block description %}
+EC SITEのログインページです。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            LOGIN
+        </p>
+
+        <h1 class="page-header__title">
+            ログイン
+        </h1>
+
+        <p class="page-header__text">
+            EC SITEをご利用いただくにはログインしてください。
+        </p>
+
+    </div>
+</section>
+
+<section class="login-section">
+    <div class="login-section__inner">
+
+        <form class="login-form">
+
+            <div class="login-form__group">
+                <label for="email">
+                    メールアドレス
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="example@example.com"
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="login-form__group">
+                <label for="password">
+                    パスワード
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="パスワードを入力してください"
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="login-form__button">
+                ログイン
+            </button>
+
+        </form>
+
+        <div class="login-form__links">
+
+            <a href="#" class="text-link">
+                パスワードをお忘れの方
+            </a>
+
+            <a href="#" class="text-link">
+                新規会員登録はこちら
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

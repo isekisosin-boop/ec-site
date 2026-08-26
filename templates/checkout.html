@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}購入手続き | EC SITE{% endblock %}
+
+{% block description %}
+お客様情報を入力して購入手続きを進めます。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            CHECKOUT
+        </p>
+
+        <h1 class="page-header__title">
+            購入手続き
+        </h1>
+
+        <p class="page-header__text">
+            お客様情報をご入力ください。
+        </p>
+
+    </div>
+</section>
+
+
+<section class="checkout-section">
+    <div class="checkout-section__inner">
+
+        <form
+                action="{{ url_for('checkout_confirm') }}"
+                method="post"
+                class="checkout-form">
+
+            <div class="checkout-form__section">
+
+                <p class="checkout-form__eyebrow">
+                    CUSTOMER INFORMATION
+                </p>
+
+                <h2 class="checkout-form__title">
+                    お客様情報
+                </h2>
+
+
+                <div class="checkout-form__field">
+
+                    <label for="name">
+                        お名前
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="山田 太郎"
+                        required>
+
+                </div>
+
+
+                <div class="checkout-form__field">
+
+                    <label for="email">
+                        メールアドレス
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@example.com"
+                        required>
+
+                </div>
+
+
+                <div class="checkout-form__field">
+
+                    <label for="postal_code">
+                        郵便番号
+                    </label>
+
+                    <input
+                        type="text"
+                        id="postal_code"
+                        name="postal_code"
+                        placeholder="000-0000"
+                        required>
+
+                </div>
+
+
+                <div class="checkout-form__field">
+
+                    <label for="address">
+                        住所
+                    </label>
+
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="東京都○○区○○1-1-1"
+                        required>
+
+                </div>
+
+
+                <div class="checkout-form__field">
+
+                    <label for="phone">
+                        電話番号
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="000-0000-0000"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="checkout-form__actions">
+
+                <a
+                    href="/cart"
+                    class="checkout-form__back">
+                    カートへ戻る
+                </a>
+
+                <button
+                    type="submit"
+                    class="checkout-form__submit">
+                    注文内容を確認する
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

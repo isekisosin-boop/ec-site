@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}お問い合わせ完了 | EC SITE{% endblock %}
+
+{% block description %}
+お問い合わせを受け付けました。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            CONTACT COMPLETE
+        </p>
+
+        <h1 class="page-header__title">
+            お問い合わせありがとうございました
+        </h1>
+
+        <p class="page-header__text">
+            お問い合わせを受け付けました。
+        </p>
+
+    </div>
+</section>
+
+
+<section class="contact-complete">
+    <div class="contact-complete__inner">
+
+        <div class="contact-complete__message">
+
+            <p class="contact-complete__eyebrow">
+                THANK YOU
+            </p>
+
+            <h2 class="contact-complete__title">
+                お問い合わせを受け付けました
+            </h2>
+
+            <p class="contact-complete__text">
+                {{ name }} 様、お問い合わせありがとうございます。
+            </p>
+
+            <p class="contact-complete__text">
+                内容を確認のうえ、担当者よりご連絡いたします。
+            </p>
+
+        </div>
+
+
+        <div class="contact-complete__actions">
+
+            <a
+                href="/"
+                class="contact-complete__button">
+                ホームへ戻る
+            </a>
+
+            <a
+                href="/products"
+                class="contact-complete__button contact-complete__button--light">
+                商品を見る
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
