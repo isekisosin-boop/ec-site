@@ -2,3 +2,4 @@ Flask
 resend
 python-dotenv
 gunicorn
+openpyxl
