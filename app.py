@@ -44,7 +44,8 @@ def load_products_from_excel():
             "image": f"images/{row[9]}.jpg" if row[9] else "",
             "seo_title": row[10],
             "seo_description": row[11],
-            "status": row[12]
+            "status": row[12],
+            "recommended": row[13]
         }
 
     return {
@@ -74,9 +75,15 @@ category_map = {
 
 @app.route("/")
 def index():
+    recommended_products = {
+        product_id: product
+        for product_id, product in products_from_excel.items()
+        if str(product["recommended"]).strip() == "●"
+    }
+
     return render_template(
         "index.html",
-        products=products_from_excel
+        products=recommended_products
     )
 
 
