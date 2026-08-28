@@ -22,8 +22,9 @@
             <nav class="site-nav">
                 <a href="/">ホーム</a>
                 <a href="/products">商品一覧</a>
-                <a href="/about">ブランドについて</a>
-                <a href="/faq">よくある質問</a>
+                <a href="/about">わたしたちについて</a>
+                <a href="/company">会社概要</a>
+                <a href="/news">ニュース</a>
                 <a href="/contact">お問い合わせ</a>
             </nav>
 
@@ -39,11 +40,63 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer">
-        <div class="site-footer__inner">
-            <p>&copy; EC SITE</p>
+<footer class="site-footer">
+
+    <div class="site-footer__inner">
+
+        <div class="site-footer__links">
+
+            <a href="/company">会社概要</a>
+            <a href="/terms">利用規約</a>
+            <a href="/law">特定商取引法に基づく表記</a>
+            <a href="/privacy">プライバシーポリシー</a>
+            <a href="/faq">よくある質問</a>
+            <a href="/news">News</a>
+            <a href="/blog">ブログ</a>
+            <a href="/contact">お問い合わせ（卸・事業者様）</a>
+
         </div>
-    </footer>
+
+
+        <div class="site-footer__contact">
+
+            <p class="site-footer__brand">
+                オラ丸商店
+            </p>
+
+            <a href="/contact" class="site-footer__contact-button">
+                お問い合わせ
+            </a>
+
+        </div>
+
+
+        <div class="site-footer__info">
+
+            <p>
+                オラ丸商店
+            </p>
+
+            <p>
+                ペットとの暮らしを、もっと心地よく。
+            </p>
+
+            <a href="/contact">
+                お問い合わせはこちら
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="site-footer__bottom">
+
+        <p>&copy; オラ丸商店</p>
+
+    </div>
+
+</footer>
 
 </body>
 </html>

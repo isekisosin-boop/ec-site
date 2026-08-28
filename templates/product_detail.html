@@ -8,21 +8,32 @@
 
 {% block content %}
 
+<!-- ========================================
+     商品メイン
+======================================== -->
 <section class="product-detail">
+
     <div class="product-detail__inner">
 
-        <div class="product-detail__image">
+        <!-- 商品画像 -->
+        <div class="product-detail__image-wrap">
 
-            {% if product.image %}
-                <img
-                    src="{{ url_for('static', filename=product.image) }}"
-                    alt="{{ product.name }}">
-            {% else %}
-                <span>IMAGE</span>
-            {% endif %}
+            <div class="product-detail__image">
+
+                {% if product.image %}
+                    <img
+                        src="{{ url_for('static', filename=product.image) }}"
+                        alt="{{ product.name }}">
+                {% else %}
+                    <span>IMAGE</span>
+                {% endif %}
+
+            </div>
 
         </div>
 
+
+        <!-- 商品情報 -->
         <div class="product-detail__info">
 
             <p class="product-detail__category">
@@ -37,62 +48,91 @@
                 {{ product.description }}
             </p>
 
-            <p class="product-detail__price">
-                {{ product.price }}
-            </p>
+            <div class="product-detail__price-area">
 
-            <div class="product-detail__quantity">
-
-                <label for="quantity">
-                    数量
-                </label>
-
-                <select id="quantity" name="quantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                <p class="product-detail__price">
+                    {{ product.price }}
+                </p>
 
             </div>
 
-<form
-    action="{{ url_for('add_to_cart', product_id=product_id) }}"
-    method="post"
-    class="product-detail__cart-form">
 
-    <button
-        type="submit"
-        class="product-detail__cart-button">
-        カートに入れる
-    </button>
+            <!-- カート -->
+            <form
+                action="{{ url_for('add_to_cart', product_id=product_id) }}"
+                method="post"
+                class="product-detail__cart-form">
 
-</form>
+                <div class="product-detail__quantity">
+
+                    <label for="quantity">
+                        数量
+                    </label>
+
+                    <select
+                        id="quantity"
+                        name="quantity">
+
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+
+                    </select>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="product-detail__cart-button">
+
+                    カートに入れる
+
+                </button>
+
+            </form>
+
         </div>
 
     </div>
+
 </section>
 
 
+<!-- ========================================
+     商品詳細
+======================================== -->
 <section class="product-detail__description-section">
 
     <div class="product-detail__description-inner">
 
-        <p class="section-heading__eyebrow">
-            DETAIL
-        </p>
+        <div class="product-detail__section-heading">
 
-        <h2 class="product-detail__description-title">
-            商品について
-        </h2>
+            <p class="section-heading__eyebrow">
+                DETAIL
+            </p>
+
+            <h2 class="product-detail__description-title">
+                商品について
+            </h2>
+
+        </div>
+
+
+        {% if product.detail %}
 
         <p class="product-detail__description-text">
             {{ product.detail }}
         </p>
 
+        {% endif %}
 
+
+        <!-- 商品情報 -->
         <div class="product-detail__information">
+
+            {% if product.features %}
 
             <div class="product-detail__information-item">
 
@@ -106,6 +146,10 @@
 
             </div>
 
+            {% endif %}
+
+
+            {% if product.usage %}
 
             <div class="product-detail__information-item">
 
@@ -119,6 +163,10 @@
 
             </div>
 
+            {% endif %}
+
+
+            {% if product.notes %}
 
             <div class="product-detail__information-item">
 
@@ -132,16 +180,26 @@
 
             </div>
 
+            {% endif %}
+
         </div>
 
     </div>
 
 </section>
 
+
+<!-- ========================================
+     商品一覧へ戻る
+======================================== -->
 <section class="product-detail__back">
 
-    <a href="/products" class="text-link">
+    <a
+        href="{{ url_for('products') }}"
+        class="text-link">
+
         商品一覧へ戻る
+
     </a>
 
 </section>

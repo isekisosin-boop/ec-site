@@ -6,6 +6,7 @@ load_dotenv()
 
 resend.api_key = os.getenv("RESEND_API_KEY")
 from datetime import datetime
+from openpyxl import load_workbook
 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 
@@ -14,47 +15,46 @@ app.secret_key = "ec-site-development-key"
 
 
 # =========================
-# 商品データ
+# Excel商品データ
 # =========================
 
-products_data = {
-    1: {
-        "name": "crystaljoy",
-        "category": "口腔ケア",
-        "description": "あのオラが昔愛用していた伝説の歯磨き粉",
-        "price": "¥2,000",
-        "detail": "昔オラが使用していました",
-        "features": "オラの歯はピカピカです。お母ちゃんにも褒められました",
-        "usage": "使用方法がここに入ります。使用する量や使用するタイミングなどを掲載します。",
-        "notes": "注意事項がここに入ります。使用上の注意や保管方法などを掲載します。",
-        "image": "images/商品1.jpg"
-    },
+def load_products_from_excel():
 
-    2: {
-        "name": "安眠膝",
-        "category": "スキンケア",
-        "description": "あの暴れん坊オラもぐっすり寝てしまいます",
-        "price": "¥100,000",
-        "detail": "ただのひょっとこのひざです",
-        "features": "商品の特徴がここに入ります。商品の魅力やポイントを掲載します。",
-        "usage": "使用方法がここに入ります。使用する量や使用するタイミングなどを掲載します。",
-        "notes": "注意事項がここに入ります。使用上の注意や保管方法などを掲載します。",
-        "image": "images/商品2.jpg"
-    },
+    workbook = load_workbook("商品一覧.xlsx", data_only=True)
+    sheet = workbook.active
 
-    3: {
-        "name": "レア写真",
-        "category": "シャンプー",
-        "description": "みたことないような表情を激写したレア写真です",
-        "price": "¥1,000,000,000",
-        "detail": "ただのオラの写真でした",
-        "features": "商品の特徴がここに入ります。商品の魅力やポイントを掲載します。",
-        "usage": "使用方法がここに入ります。使用する量や使用するタイミングなどを掲載します。",
-        "notes": "注意事項がここに入ります。使用上の注意や保管方法などを掲載します。",
-        "image": "images/商品3.jpg"
+    products = {}
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+
+        if not row[0]:
+            continue
+
+        product_id = int(row[0])
+
+        products[product_id] = {
+            "name": row[1],
+            "category": row[2],
+            "description": row[3],
+            "price": row[4],
+            "detail": row[5],
+            "features": row[6],
+            "usage": row[7],
+            "notes": row[8],
+            "image": f"images/{row[9]}.jpg" if row[9] else "",
+            "seo_title": row[10],
+            "seo_description": row[11],
+            "status": row[12]
+        }
+
+    return {
+        product_id: product
+        for product_id, product in products.items()
+        if str(product["status"]).strip() == "公開"
     }
-}
 
+
+products_from_excel = load_products_from_excel()
 
 # =========================
 # カテゴリー対応
@@ -76,7 +76,7 @@ category_map = {
 def index():
     return render_template(
         "index.html",
-        products=products_data
+        products=products_from_excel
     )
 
 
@@ -91,7 +91,7 @@ def products():
     search_query = request.args.get("q", "").strip()
     sort_order = request.args.get("sort", "default")
 
-    filtered_products = products_data
+    filtered_products = products_from_excel
 
     # -------------------------
     # カテゴリー絞り込み
@@ -151,7 +151,7 @@ def products():
 @app.route("/products/<int:product_id>")
 def product_detail(product_id):
 
-    product = products_data.get(product_id)
+    product = products_from_excel.get(product_id)
 
     if product is None:
         return "商品が見つかりません", 404
@@ -170,7 +170,7 @@ def product_detail(product_id):
 @app.route("/cart/add/<int:product_id>", methods=["POST"])
 def add_to_cart(product_id):
 
-    product = products_data.get(product_id)
+    product = products_from_excel.get(product_id)
 
     if product is None:
         return "商品が見つかりません", 404
@@ -201,7 +201,7 @@ def add_to_cart(product_id):
 @app.route("/cart/update/<int:product_id>", methods=["POST"])
 def update_cart(product_id):
 
-    if product_id not in products_data:
+    if product_id not in products_from_excel:
         return "商品が見つかりません", 404
 
     quantity = request.form.get("quantity", 1, type=int)
@@ -250,7 +250,7 @@ def cart():
 
     for product_id, quantity in cart_data.items():
 
-        product = products_data.get(int(product_id))
+        product = products_from_excel.get(int(product_id))
 
         if product is None:
             continue
@@ -315,7 +315,7 @@ def checkout_confirm():
 
     for product_id, quantity in cart_data.items():
 
-        product = products_data.get(int(product_id))
+        product = products_from_excel.get(int(product_id))
 
         if product is None:
             continue
@@ -355,7 +355,7 @@ def order_complete():
 
     for product_id, quantity in cart_data.items():
 
-        product = products_data.get(int(product_id))
+        product = products_from_excel.get(int(product_id))
 
         if product is None:
             continue
@@ -408,7 +408,7 @@ def order_complete_page():
 
     for item in completed_order["cart_items"]:
 
-        product = products_data.get(item["id"])
+        product = products_from_excel.get(item["id"])
 
         if product is None:
             continue
@@ -504,6 +504,208 @@ def contact():
         )
 
     return render_template("contact.html")
+# =========================
+# 会社概要・各種ページ
+# =========================
+
+@app.route("/company")
+def company():
+    return render_template("company.html")
+
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+
+@app.route("/law")
+def law():
+    return render_template("law.html")
+
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/news")
+def news():
+
+    workbook = load_workbook("ニュース一覧.xlsx", data_only=True)
+    sheet = workbook.active
+
+    news_posts = []
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+
+        if not row[0]:
+            continue
+
+        news_posts.append({
+            "id": row[0],
+            "date": row[1],
+            "category": row[2],
+            "title": row[3],
+            "slug": row[4],
+            "summary": row[5],
+            "image": row[6],
+            "body": row[7],
+            "seo_title": row[8],
+            "seo_description": row[9],
+            "related_product": row[10],
+            "status": row[11]
+        })
+
+    news_posts = [
+        post for post in news_posts
+        if str(post["status"]).strip() == "公開"
+    ]
+
+    return render_template(
+        "news.html",
+        news_posts=news_posts
+    )
+
+
+@app.route("/news/<slug>")
+def news_detail(slug):
+
+    workbook = load_workbook("ニュース一覧.xlsx", data_only=True)
+    sheet = workbook.active
+
+    news_post = None
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+
+        if not row[0]:
+            continue
+
+        post = {
+            "id": row[0],
+            "date": row[1],
+            "category": row[2],
+            "title": row[3],
+            "slug": row[4],
+            "summary": row[5],
+            "image": row[6],
+            "body": row[7],
+            "seo_title": row[8],
+            "seo_description": row[9],
+            "related_product": row[10],
+            "status": row[11]
+        }
+
+        if (
+            str(post["status"]).strip() == "公開"
+            and str(post["slug"]).strip() == slug
+        ):
+            news_post = post
+            break
+
+    if news_post is None:
+        return "ニュースが見つかりません", 404
+
+    related_product_id = None
+
+    if news_post["related_product"]:
+        related_product_name = str(
+            news_post["related_product"]
+        ).strip()
+
+        for product_id, product in products_from_excel.items():
+
+            if product["name"].strip() == related_product_name:
+                related_product_id = product_id
+                break
+
+    return render_template(
+        "news_detail.html",
+        news_post=news_post,
+        related_product_id=related_product_id
+    )
+@app.route("/business")
+def business():
+    return render_template("business.html")
+
+@app.route('/blog')
+def blog():
+
+    workbook = load_workbook("ブログ一覧.xlsx", data_only=True)
+    sheet = workbook.active
+
+    blog_posts = []
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+
+        if not row[0]:
+            continue
+
+        blog_posts.append({
+            "id": row[0],
+            "date": row[1],
+            "category": row[2],
+            "title": row[3],
+            "slug": row[4],
+            "summary": row[5],
+            "image": row[6],
+            "body": row[7],
+            "seo_title": row[8],
+            "seo_description": row[9],
+            "related_product": row[10],
+            "status": row[11]
+        })
+
+    blog_posts = [
+        post for post in blog_posts
+        if str(post["status"]).strip() == "公開"
+    ]
+
+    return render_template(
+        "blog.html",
+        blog_posts=blog_posts
+    )
+@app.route('/blog/<slug>')
+def blog_detail(slug):
+
+    workbook = load_workbook("ブログ一覧.xlsx", data_only=True)
+    sheet = workbook.active
+
+    blog_post = None
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+
+        if not row[0]:
+            continue
+
+        post = {
+            "id": row[0],
+            "date": row[1],
+            "category": row[2],
+            "title": row[3],
+            "slug": row[4],
+            "summary": row[5],
+            "image": row[6],
+            "body": row[7],
+            "seo_title": row[8],
+            "seo_description": row[9],
+            "related_product": row[10],
+            "status": row[11]
+        }
+
+        if (
+            str(post["status"]).strip() == "公開"
+            and str(post["slug"]).strip() == slug
+        ):
+            blog_post = post
+            break
+
+    if blog_post is None:
+        return "記事が見つかりません", 404
+
+    return render_template(
+        "blog_detail.html",
+        blog_post=blog_post
+    )
 # =========================
 # ログイン
 # =========================

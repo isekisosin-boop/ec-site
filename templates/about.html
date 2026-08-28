@@ -1,55 +1,199 @@
 {% extends "base.html" %}
 
-{% block title %}ブランドについて | EC SITE{% endblock %}
+{% block title %}わたしたちについて | オラ丸商店{% endblock %}
 
 {% block description %}
-ペットとの暮らしをより心地よくするための、ブランドの想いや取り組みをご紹介します。
+オラ丸商店が大切にしている想いや、代表からのメッセージをご紹介します。
 {% endblock %}
 
 {% block content %}
 
 <section class="page-header">
     <div class="page-header__inner">
-        <p class="page-header__eyebrow">ABOUT</p>
-        <h1 class="page-header__title">ブランドについて</h1>
+
+        <p class="page-header__eyebrow">
+            ABOUT US
+        </p>
+
+        <h1 class="page-header__title">
+            わたしたちについて
+        </h1>
+
         <p class="page-header__text">
             ペットとの暮らしを、もっと心地よく。
         </p>
+
     </div>
 </section>
 
+
 <section class="about-section">
+
     <div class="about-section__inner">
 
         <div class="about-block">
-            <p class="about-block__eyebrow">OUR PHILOSOPHY</p>
+
+            <p class="about-block__eyebrow">
+                OUR THOUGHT
+            </p>
 
             <h2 class="about-block__title">
-                大切な家族との毎日に、<br>
-                心地よい選択を。
+                ペットとの暮らしを、もっと心地よく。
             </h2>
 
-            <p class="about-block__text">
-                私たちは、ペットとの毎日をより豊かにするための
-                商品をお届けするブランドを目指しています。
-            </p>
-        </div>
+            <div class="about-us__text">
 
-        <div class="about-block about-block--light">
-            <p class="about-block__eyebrow">OUR PRODUCTS</p>
+                <p>
+                    ペットは、私たちにとって単なる「動物」ではありません。
+                </p>
 
-            <h2 class="about-block__title">
-                暮らしに寄り添う商品を。
-            </h2>
+                <p>
+                    一緒に暮らし、毎日を過ごし、嬉しいときも、疲れているときも、そばにいてくれる大切な家族です。
+                </p>
 
-            <p class="about-block__text">
-                口腔ケア、スキンケア、シャンプーなど、
-                ペットとの暮らしに寄り添う商品を、
-                これから少しずつ展開していきます。
-            </p>
+                <p>
+                    私自身、幼いころから動物がいる生活の中で育ってきました。
+                </p>
+
+                <p>
+                    親元を離れて自立してからも、1匹の犬と一緒に暮らしています。
+                </p>
+
+                <p>
+                    そんな日々の中で感じてきたのは、ペットとの暮らしには、楽しいことだけではなく、飼い主だからこそ分かる小さな悩みや困りごとがたくさんあるということです。
+                </p>
+
+                <p>
+                    「もう少しケアしやすかったら」
+                </p>
+
+                <p>
+                    「もっと安心して使えるものがあったら」
+                </p>
+
+                <p>
+                    「こういう商品があればいいのに」
+                </p>
+
+                <p>
+                    そんな小さな「こうだったらいいな」に目を向けることから、オラ丸商店の商品選びは始まっています。
+                </p>
+
+            </div>
+
         </div>
 
     </div>
+
+</section>
+
+
+<section class="about-section">
+
+    <div class="about-section__inner">
+
+        <div class="about-block">
+
+            <p class="about-block__eyebrow">
+                MESSAGE
+            </p>
+
+            <h2 class="about-block__title">
+                代表からのメッセージ
+            </h2>
+
+            <div class="about-us__message">
+
+                <div class="about-us__profile">
+
+                    <div class="about-us__profile-image">
+
+                        <img
+                            src="{{ url_for('static', filename='images/代表.jpg') }}"
+                            alt="オラ丸商店 代表">
+
+                    </div>
+
+                    <div class="about-us__profile-content">
+
+                        <h3>
+                            動物業界、化粧品業界を経験して
+                        </h3>
+
+                        <div class="about-us__text">
+
+                            <p>
+                                これまで私は、ペットと暮らす側だけではなく、動物に関わる仕事にも携わってきました。
+                                以前は獣医療出版社で営業として働き、さまざまな獣医師の先生方や、学校の先生、学生の方々と出会いました。
+                            </p>
+
+                            <p>
+                                獣医療の現場で働く方々の考え方や、これから動物に関わる仕事を目指す学生たちの姿に触れる機会がありました。
+                                時には、自分自身が学生の方々に向けて動物業界に関する講義を行うこともありました。
+                            </p>
+
+                            <p>
+                                日々、動物と向き合い続けている獣医師の先生方。
+                                動物に関わる仕事を目指し、夢に向かって学んでいる学生たち。
+                                そして、これからの獣医療や動物との関わり方について考え、教えている学校の教員方。
+                            </p>
+
+                            <p>
+                                仕事を通して、そのような動物業界を牽引する方々と直接お話しする機会に恵まれました。
+                                それぞれ立場や考え方は違っていても、そこに共通していたのは、
+                                「動物のために何ができるのか」を真剣に考えている姿でした。
+                            </p>
+
+                            <p>
+                                そうした方々の言葉や姿勢に触れた経験は、今の自分の考え方をつくる大きな財産になっています。
+                            </p>
+
+                            <p>
+                                その後、私は化粧品製造会社へ転職しました。
+                                そこで今度は、「商品を届ける側」から「商品をつくる側」の視点を学びました。
+                            </p>
+
+                            <p>
+                                どのようなものをつくるのか。
+                                どのような素材を選ぶのか。
+                                実際に使う人にとって、本当に良いものなのか。
+                            </p>
+
+                            <p>
+                                商品ができあがるまでには、表からは見えない多くの考えや工程があります。
+                            </p>
+
+                            <p>
+                                動物と暮らしてきた経験。
+                                獣医療に関わる方々と出会ってきた経験。
+                                そして、ものづくりの現場で学んだ経験。
+                            </p>
+
+                            <p>
+                                これまで積み重ねてきた一つひとつの経験が、今のオラ丸商店につながっています。
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="product-detail__back">
+
+    <a href="/" class="text-link">
+        ホームへ戻る
+    </a>
+
 </section>
 
 {% endblock %}
