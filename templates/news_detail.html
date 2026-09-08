@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ news_post.seo_title if news_post.seo_title else news_post.title }} | オラ丸商店
+{% endblock %}
+
+{% block description %}
+{{ news_post.seo_description if news_post.seo_description else news_post.summary }}
+{% endblock %}
+
+{% block content %}
+
+<article class="blog-detail">
+
+    <div class="blog-detail__inner">
+
+        <header class="blog-detail__header">
+
+            {% if news_post.category %}
+            <p class="blog-detail__category">
+                {{ news_post.category }}
+            </p>
+            {% endif %}
+
+            <h1 class="blog-detail__title">
+                {{ news_post.title }}
+            </h1>
+
+            {% if news_post.date %}
+            <time class="blog-detail__date">
+                {{ news_post.date.strftime('%Y.%m.%d') if news_post.date.strftime is defined else news_post.date }}
+            </time>
+            {% endif %}
+
+        </header>
+
+
+        {% if news_post.image %}
+        <div class="blog-detail__image">
+
+            <img
+                src="{{ url_for('static', filename='images/' ~ news_post.image ~ '.jpg') }}"
+                alt="{{ news_post.title }}"
+            >
+
+        </div>
+        {% endif %}
+
+
+        {% if news_post.summary %}
+        <p class="blog-detail__summary">
+            {{ news_post.summary }}
+        </p>
+        {% endif %}
+
+
+        {% if news_post.body %}
+        <div class="blog-detail__body">
+            {{ news_post.body }}
+        </div>
+        {% endif %}
+
+
+        {% if news_post.related_product %}
+{% if news_post.related_product %}
+<div class="blog-detail__related">
+
+    <h2>関連商品</h2>
+
+    {% if related_product_id %}
+    <p>
+        <a href="/products/{{ related_product_id }}" class="text-link">
+            {{ news_post.related_product }}
+        </a>
+    </p>
+    {% else %}
+    <p>
+        {{ news_post.related_product }}
+    </p>
+    {% endif %}
+
+</div>
+{% endif %}
+        {% endif %}
+
+
+        <div class="blog-detail__back">
+
+            <a href="/news" class="text-link">
+                News一覧へ戻る
+            </a>
+
+        </div>
+
+    </div>
+
+</article>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ blog_post.seo_title if blog_post.seo_title else blog_post.title }} | オラ丸商店
+{% endblock %}
+
+{% block description %}
+{{ blog_post.seo_description if blog_post.seo_description else blog_post.summary }}
+{% endblock %}
+
+{% block content %}
+
+<article class="blog-detail">
+
+    <div class="blog-detail__inner">
+
+        <header class="blog-detail__header">
+
+            {% if blog_post.category %}
+            <p class="blog-detail__category">
+                {{ blog_post.category }}
+            </p>
+            {% endif %}
+
+            <h1 class="blog-detail__title">
+                {{ blog_post.title }}
+            </h1>
+
+            {% if blog_post.date %}
+            <time class="blog-detail__date">
+                {{ blog_post.date.strftime('%Y.%m.%d') if blog_post.date.strftime is defined else blog_post.date }}
+            </time>
+            {% endif %}
+
+        </header>
+
+
+        {% if blog_post.image %}
+        <div class="blog-detail__image">
+
+            <img
+                src="{{ url_for('static', filename='images/' ~ blog_post.image ~ '.jpg') }}"
+                alt="{{ blog_post.title }}"
+            >
+
+        </div>
+        {% endif %}
+
+
+        {% if blog_post.summary %}
+        <p class="blog-detail__summary">
+            {{ blog_post.summary }}
+        </p>
+        {% endif %}
+
+
+        {% if blog_post.body %}
+        <div class="blog-detail__body">
+            {{ blog_post.body }}
+        </div>
+        {% endif %}
+
+
+        {% if blog_post.related_product %}
+        <div class="blog-detail__related">
+            <h2>関連商品</h2>
+            <p>
+                {{ blog_post.related_product }}
+            </p>
+        </div>
+        {% endif %}
+
+
+        <div class="blog-detail__back">
+
+            <a href="/blog" class="text-link">
+                ブログ一覧へ戻る
+            </a>
+
+        </div>
+
+    </div>
+
+</article>
+
+{% endblock %}

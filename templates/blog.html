@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}ブログ | オラ丸商店{% endblock %}
+
+{% block description %}
+オラ丸商店のブログです。ペットとの暮らしやケアに関する情報をお届けします。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            BLOG
+        </p>
+
+        <h1 class="page-header__title">
+            ブログ
+        </h1>
+
+        <p class="page-header__text">
+            ペットとの暮らしやケアに関する情報をお届けします。
+        </p>
+
+    </div>
+</section>
+
+<section class="blog-section">
+    <div class="blog-section__inner">
+
+        <div class="blog-list">
+
+            {% for post in blog_posts %}
+
+            <article class="blog-card">
+
+                <a href="/blog/{{ post.slug }}" class="blog-card__link">
+
+                    <div class="blog-card__image">
+
+                        {% if post.image %}
+                        <img
+                            src="{{ url_for('static', filename='images/' ~ post.image ~ '.jpg') }}"
+                            alt="{{ post.title }}"
+                        >
+                        {% endif %}
+
+                    </div>
+
+                    <div class="blog-card__body">
+
+                        <div class="blog-card__meta">
+
+                            {% if post.date %}
+                            <time>
+                                {{ post.date.strftime('%Y.%m.%d') if post.date.strftime is defined else post.date }}
+                            </time>
+                            {% endif %}
+
+                            {% if post.category %}
+                            <span>
+                                {{ post.category }}
+                            </span>
+                            {% endif %}
+
+                        </div>
+
+                        <h2 class="blog-card__title">
+                            {{ post.title }}
+                        </h2>
+
+                        {% if post.summary %}
+                        <p class="blog-card__summary">
+                            {{ post.summary }}
+                        </p>
+                        {% endif %}
+
+                    </div>
+
+                </a>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+<section class="product-detail__back">
+
+    <a href="/" class="text-link">
+        ホームへ戻る
+    </a>
+
+</section>
+
+{% endblock %}

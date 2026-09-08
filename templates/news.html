@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}News | オラ丸商店{% endblock %}
+
+{% block description %}
+オラ丸商店からのお知らせや最新情報をご案内します。
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="page-header__inner">
+
+        <p class="page-header__eyebrow">
+            NEWS
+        </p>
+
+        <h1 class="page-header__title">
+            News
+        </h1>
+
+        <p class="page-header__text">
+            オラ丸商店からのお知らせや最新情報をご案内します。
+        </p>
+
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-section__inner">
+
+        <div class="about-block">
+
+            <p class="about-block__eyebrow">
+                LATEST NEWS
+            </p>
+
+            <h2 class="about-block__title">
+                お知らせ
+            </h2>
+
+<div class="news-list">
+
+    {% for post in news_posts %}
+
+    <article class="news-card">
+
+        <a href="/news/{{ post.slug }}" class="news-card__link">
+
+            {% if post.image %}
+            <div class="news-card__image">
+                <img
+                    src="{{ url_for('static', filename='images/' ~ post.image ~ '.jpg') }}"
+                    alt="{{ post.title }}"
+                >
+            </div>
+            {% endif %}
+
+            <div class="news-card__body">
+
+                <div class="news-card__meta">
+
+                    {% if post.date %}
+                    <time>
+                        {{ post.date.strftime('%Y.%m.%d') if post.date.strftime is defined else post.date }}
+                    </time>
+                    {% endif %}
+
+                    {% if post.category %}
+                    <span>
+                        {{ post.category }}
+                    </span>
+                    {% endif %}
+
+                </div>
+
+                <h3 class="news-card__title">
+                    {{ post.title }}
+                </h3>
+
+                {% if post.summary %}
+                <p class="news-card__summary">
+                    {{ post.summary }}
+                </p>
+                {% endif %}
+
+            </div>
+
+        </a>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+        </div>
+
+    </div>
+</section>
+
+<section class="product-detail__back">
+
+    <a href="/" class="text-link">
+        ホームへ戻る
+    </a>
+
+</section>
+
+{% endblock %}
